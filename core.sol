@@ -161,7 +161,7 @@ contract BrokexCalculator is Ownable {
         return _toUsd6(fee1e18, true);
     }
 
-    function getFundingUsd6(uint256 assetIndex, uint256 price1e18, uint256 lots, uint256 hoursHeld)
+    function getFunding(uint256 assetIndex, uint256 price1e18, uint256 lots, uint256 hoursHeld)
         external
         view
         returns (int256)
