@@ -386,6 +386,40 @@ contract Storage is Ownable {
         clOrdToPosition[nextClOrdId] = positionId;
         clOrdType[nextClOrdId] = 4; // 4 = close market
     }
+
+    // --- Get clOrd type code (0=open, 1=TP, 2=SL, 3=LIQ, 4=close market) ---
+    function getClOrdType(uint256 clOrdId) external view returns (uint8) {
+        return clOrdType[clOrdId];
+    }
+    
+    // --- From a positionId, return the three child clOrdIds (SL, TP, LIQ) ---
+    function getPositionClOrdIds(uint256 positionId)
+        external
+        view
+        returns (uint256 slClOrdId, uint256 tpClOrdId, uint256 liqClOrdId)
+    {
+        return (positionSL[positionId], positionTP[positionId], positionLIQ[positionId]);
+    }
+    
+    // --- From a clOrdId, return its linked orderId (0 if none) ---
+    function getOrderIdByClOrd(uint256 clOrdId) external view returns (uint256) {
+        return clOrdToOrder[clOrdId];
+    }
+    
+    // --- Triggers (prices) for a given positionId (alias of existing getter) ---
+    function getTriggersForPosition(uint256 positionId)
+        external
+        view
+        returns (uint256 stopLoss, uint256 takeProfit, uint256 liquidation)
+    {
+        return (slPrice[positionId], tpPrice[positionId], liqPrice[positionId]);
+    }
+    
+    // --- From a clOrdId, go back to the parent positionId (0 if none) ---
+    function getPositionIdByClOrd(uint256 clOrdId) external view returns (uint256) {
+        return clOrdToPosition[clOrdId];
+    }
+
 }
 
 /*
